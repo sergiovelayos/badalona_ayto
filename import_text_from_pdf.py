@@ -1,3 +1,11 @@
+from pypdf import PdfReader
+
+reader = PdfReader("sample.pdf")
+text = ""
+for page in reader.pages:
+    text += page.extract_text() + "\n"
+
+print(text)
 # # Opción 1
 # import re
 # from pdfminer.high_level import extract_pages,extract_text
