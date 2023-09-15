@@ -7,7 +7,7 @@ import re
 
 
 # Definir la URL de la página web
-url = "http://badalona.cat/portalWeb/badalona.portal;jsessionid=4ylNk92VwLgsvf93SfNv9nqJT9Dvpf0kDG4gvCvXzCq27qT01h6n!-862168623?_nfpb=true&_pageLabel=contingut_estatic&dCollectionID=4820#wlp_contingut_estatic"
+url = "http://badalona.cat/portalWeb/badalona.portal?_nfpb=true&_pageLabel=contingut_estatic&dCollectionID=5176"
 
 # make HTTP GET request to the target URL
 response = requests.get(url)
@@ -28,19 +28,24 @@ for noticia in soup.find_all('li', class_='noticia relacionat'):
 # Define the pattern to match
 pattern = "dDocName=(\w+)"
 
+# Create a folder named pdfs if it does not exist
+if not os.path.exists("pdfs/2023"):
+  os.mkdir("pdfs/2023")
+
 # Loop through the list
 for i in lista_pdf_urls:
     # Get the response from the URL
     response = requests.get(i)
     # Search for the pattern in the URL
     match = re.search(pattern, i)
-    # If there is a match, get the file name from the group 1
+    # If there is a match, get the file name from the group 1 and add .pdf
     if match:
-      file_name = match.group(1)
+      file_name = match.group(1) + ".pdf"
+      # Join the folder name and the file name
+      file_path = os.path.join("pdfs","2022", file_name)
       # Open a file with the same name as write mode
-      with open(file_name, "wb") as file:
+      with open(file_path, "wb") as file:
         # Write the response content to the file
         file.write(response.content)
-    
 
     
